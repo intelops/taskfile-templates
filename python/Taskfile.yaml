@@ -7,6 +7,8 @@ env:
   REPOSITORY: "intelops"
   IMAGE_NAME: "python-taskfile"
   IMAGE_TAG: "v1"
+  TARGET_URL: "http://APPLICATION_DOMAIN"
+  ZAP_REPORT: "zap_report.html"
 
 tasks:
   default:
@@ -69,6 +71,18 @@ tasks:
             echo "trivy could not be found"
             exit 1
           fi
+
+  zap:
+    desc: "Run OWASP ZAP Scan"
+    cmds:
+      - docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t $TARGET_URL -r $ZAP_REPORT
+    preconditions:
+      - sh: |
+          if ! command -v docker &> /dev/null; then
+            echo "docker could not be found"
+            exit 1
+          fi
+    silent: false
 
   ci:
     desc: "Run full CI pipeline"
