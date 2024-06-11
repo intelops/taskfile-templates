@@ -84,7 +84,10 @@ tasks:
           fi
     silent: false
 
+  fuzztest:
+    desc: "Run the fuzz testing"
+    cmds:
+      - docker run -v $(pwd):/usr/src/app:rw -t fuzzme/python-atheris main.py 
   ci:
     desc: "Run full CI pipeline"
     deps: [install-deps, lint, unit-test, scan, zap]
-

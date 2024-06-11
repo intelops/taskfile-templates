@@ -1,5 +1,8 @@
-FROM python:3.13.0b1-bookworm
+FROM plonkin/atheris-fuzzer:latest
 
-ADD hello-world.py /
+COPY ./requirements.txt ./requirements.txt
+RUN pip3 install -r requirements.txt
 
-CMD [ "python", "./hello-world.py" ]
+ADD ./fuzz_simple_example ./app
+
+WORKDIR /app

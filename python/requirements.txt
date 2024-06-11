@@ -1,3 +1,5 @@
-pylint
-flake8
-pytest
+#pylint
+#flake8
+#pytest
+#atheris
+coverage==6.5.*
