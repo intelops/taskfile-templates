@@ -9,6 +9,7 @@ env:
   IMAGE_TAG: "v1"
   TARGET_URL: "http://APPLICATION_DOMAIN"
   ZAP_REPORT: "zap_report.html"
+  POSTMAN_API_KEY: "somekey"
 
 tasks:
   default:
@@ -88,6 +89,27 @@ tasks:
     desc: "Run the fuzz testing"
     cmds:
       - docker compose build fuzz && docker compose run --service-ports fuzz
+    preconditions:
+      - sh: |
+          if ! command -v docker &> /dev/null; then
+            echo "docker could not be found"
+            exit 1
+          fi
+    silent: false
+
+  postman_run:
+    desc: "Run Postman"
+    cmds:
+      - postman login --with-api-key $POSTMAN_API_KEY
+      - echo "postman run commands"
+    preconditions:
+      - sh: |
+          if ! command -v postman  &> /dev/null; then
+            echo "postman could not be found"
+            exit 1
+          fi
+    silent: false
+
   ci:
     desc: "Run full CI pipeline"
     deps: [install-deps, lint, unit-test, scan, zap]
