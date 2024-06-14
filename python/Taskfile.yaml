@@ -39,6 +39,19 @@ tasks:
             exit 1
           fi
 
+  int-test:
+    desc: "Run unit tests"
+    cmds:
+      - rm -rf testcontainers/venv
+      - python3 -m venv testcontainers/venv
+      - pip3 install -r testcontainers/requirements.txt
+      - pytest testcontainers
+    preconditions:
+      - sh: |
+          if ! command -v pytest &> /dev/null; then
+            echo "pytest could not be found"
+            exit 1
+          fi
   unit-test:
     desc: "Run unit tests"
     cmds:
