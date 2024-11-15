@@ -1,0 +1,9 @@
+version: '3'
+tasks:
+  scan-image:
+    desc: "Scan a Docker image for vulnerabilities using Trivy"
+    vars:
+      IMAGE:
+        default: "your-docker-image:latest"
+    cmds:
+      - trivy image --format json --output result.json nginx
