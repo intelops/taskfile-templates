@@ -1,0 +1,6 @@
+version: '3'
+tasks:
+  depcheck-scan:
+    desc: "run dependency check"
+    cmds:
+      - docker run -v $(pwd)/spring-petclinic:/tmp/spring-petclinic --rm -it owasp/dependency-check --project "petclinic" --scan /tmp/spring-petclinic/target/petclinic.jar
