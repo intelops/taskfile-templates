@@ -1,0 +1,40 @@
+version: '3'
+tasks:
+  up:
+    desc: "Bring up SonarQube using Docker Compose"
+    cmds:
+      - docker compose up -d
+  down:
+    desc: "Take down SonarQube"
+    cmds:
+      - docker-compose down
+  restart:
+    desc: "Restart SonarQube services"
+    cmds:
+      - task: down
+      - task: up
+  logs:
+    desc: "Show logs of SonarQube service"
+    cmds:
+  status:
+    desc: "Check status of SonarQube services"
+    cmds:
+      - docker compose ps
+  cleanup:
+    desc: "Clean up SonarQube containers, volumes, and images"
+    cmds:
+      - docker compose down -v
+      - docker compose rm -f
+      - docker system prune -f
+  sonar_scan:
+    desc: "Run SonarQube analysis using sonar-cli in Docker"
+    cmds:
+      - docker run --rm \
+          -v $(pwd):/usr/src \
+          -w /usr/src \
+          sonarsource/sonar-scanner-cli \
+          sonar-scanner \
+          -Dsonar.projectKey=test \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=http://localhost:9091 \
+          -Dsonar.login=sqp_c15901a381486fe40a4dd90c58c8a5ee7600dfdc
