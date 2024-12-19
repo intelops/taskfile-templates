@@ -1,5 +1,5 @@
 # Taskfile.yml
-version: '3'
+version: "3"
 
 tasks:
   build:
@@ -15,4 +15,3 @@ tasks:
   test_all:
     desc: "Build the Docker image and run tests"
     deps: [build, test]
-
