@@ -1,6 +1,13 @@
-version: '3'
+version: "3"
 tasks:
-  scan-image:
-    desc: "Scan a Docker image for vulnerabilities using Trivy"
+  trivy-scan:
+    desc: Scan a Docker image for vulnerabilities using Trivy
+    silent: true
+    deps: [trivy-image]
     cmds:
-      - docker run aquasec/trivy image --format json --output result.json python:3.4-alpine
+      - docker run -v $(pwd):/app ghcr.io/open-containers/trivy-task:latest {{ .CLI_ARGS }}
+  trivy-image:
+    desc: Pull required Trivy image
+    silent: true
+    cmds:
+      - docker pull ghcr.io/open-containers/trivy-task:latest
